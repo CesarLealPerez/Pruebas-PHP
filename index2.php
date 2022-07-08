@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <title>Calculadora</title>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <h4 style="font-size: 1.1rem;">Calcula el precio de coste edición y de venta de tu libro</h4>
+                </div>
+                <div class="row">
+                    <span style="font-size: 1rem;">
+                        <span class="fs-5" style="color: #AF0539">1
+                        </span> Introduce el formato de tu libro para calcular el precio mínimo de venta</span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="min-height: 10px;"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="exampleFormControlInput1" style="font-size:0.8rem;" class="form-label">Número
+                            Páginas:</label>
+                        <input id="id_num_paginas"
+                            type="number" min="0" step="1" class="form-control" placeholder="Introduce número páginas"
+                            aria-label="Número Paǵinas">
+                    </div>
+
+                    <div class="col">
+                        <label for="exampleFormControlInput1" style="font-size:0.8rem;"
+                            class="form-label">Tamaño:</label>
+                        <select id="id_tamano" class="form-select" aria-label="tamaño libro">
+                            <option value="a4" selected="selected">A4</option>
+                            <option value="17x24">17x24</option>
+                            <option value="a5">A5</option>
+                            <option value="21x21">21x21</option>
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <label for="exampleFormControlInput1" style="font-size:0.8rem;" class="form-label">Tipo de
+                            Impresión:</label>
+                        <select id="id_tipo_impresion" class="form-select" aria-label="tipo impresion">
+                            <!-- <option value="negro" selected="selected">Negro</option>
+                            <option value="color">Color</option> -->
+                            <?php
+                            echo '<select id="id_tipo_impresion" class="form-select" aria-label="tipo impresion">';
+							if (!($mysqli = mysqli_connect("localhost", "root", "1234", "libreria"))) :
+								die("Error en conexion a la base de datos");
+							endif;
+
+							$sql = "SELECT DISTINCT `printing_type` FROM `formatos`";
+							$resultado = $mysqli->query($sql);
+							if (!$resultado) :
+								die("Error en la consulta");
+							endif;
+
+							while($fila=mysqli_fetch_array($resultado)):
+								echo ' <option value="'.$fila["printing_type"].'" selected="selected">'.$fila["printing_type"].'</option>';
+								echo ' <option value="'.$fila["printing_type"].'>'.$fila["printing_type"].'</option>';               
+							endwhile;
+                            break;
+							mysqli_free_result($resultado);
+							mysqli_close($mysqli);
+							?>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="min-height: 10px;"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="exampleFormControlInput1" style="font-size:0.8rem;"
+                            class="form-label">Encuadernación:</label>
+                        <select id="id_tipo_maquetacion" class="form-select" aria-label="tipo maquetación">
+                            <option value=0.97410>Sin solapas</option>
+                            <option value=1.12710>Con solapas</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="exampleFormControlInput1" style="font-size:0.8rem;" class="form-label">Tipo de
+                            Papel:</label>
+                        <select id="id_tipo_papel" class="form-select"
+                            aria-label="tipo papel">
+                            <option value="estucado" selected="selected">Estucado</option>
+                            <option value="offset">Offset</option>
+                            <option value="ahuesado">Ahuesado</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="exampleFormControlInput1" style="font-size:0.8rem;"
+                            class="form-label">Gramaje:</label>
+                        <select id="id_gramaje" class="form-select" aria-label="gramaje">
+                            <option value="90" selected="selected">90</option>
+                            <option value="100">100</option>
+                            <option value="115">115</option>
+                            <option value="135">135</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="min-height: 10px;"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4">
+                        <span style="font-size: 1rem;"><strong>Coste Impresión:</strong> </span>
+                    </div>
+                    <div class="col-4">
+                        <span class="col-3" style="color:black; font-size: 1rem;" id="coste_impresion"></span>
+                    </div>
+                </div>
+
+                <!--
+                <div class="row">
+                    <div class="col-4">
+                        <span style="font-size: 1rem;"><strong>Coste Embalaje/Manipulado:</strong> </span>
+                    </div>
+                    <div class="col-4">
+                        <span style="color:black;font-size: 1rem;" id="coste_embalaje"></span>
+                    </div>
+                </div>
+                -->
+                
+                <div class="row">
+                    <div class="col-4" style="background-color: #AF0539;color:white;">
+                        <span style="font-size: 1rem;"><strong>Precio mínimo de venta:</strong> </span>
+                    </div>
+                    <div class="col-4" style="background-color: #AF0539;color:white;">
+                        <span style="color:white;font-size: 1rem;" id="precio_libro"></span>
+                    </div>
+                    <div class="col-4" style="background-color: #AF0539;color:white;">
+                        <span style="color:white;font-size: 1rem;" id="space">&nbsp;</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="min-height: 20px;"></div>
+                </div>
+
+                <div class="row">
+                    <span style="font-size: 1rem;">
+                        <span  style="color: #AF0539; ">2
+                        </span> Introduce el precio al cual lo quieres vender</span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="min-height: 20px;"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="exampleFormControlInput1" class="form-label">Precio de Venta (€):</label>
+                        <input id="id_precio_venta" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')"
+                            type="number" min="0" class="form-control" aria-label="Precio Venta">
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div style="display:none;" class="form-text" id="err_msg">El precio que pongas ha de ser mayor
+                            que el precio mínimo de venta</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="min-height: 20px;"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col" style="background-color: #AF0539;color: white;">
+                        <span style="font-size: 1rem;"><strong>Por cada venta de tu libro ganarás: </strong> </span>
+                        <span style="font-size: 1rem;" style="color:white;" id="ganancia_libro"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" style="min-height: 10px;"></div>
+                </div>
+
+
+            </div>
+
+            <div class="col-md-2">
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+        </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script src="js/pouchdb-7.2.1.min.js"></script>
+    <script src="js/pouchdb.find.js"></script>
+
+    <script>
+        // CONFIGURACION PRECIOS
+        let COSTE_EMBALAJE = 1.30;
+        let PORCENTAJE_MANIPULADO = 30;
+        let COMISION = 30;
+        let BENEFICIO_MARKETPLACE = 70;
+
+        /*
+         * OBTENEMOS LA GANANCIA DE UN LIBRO TENIENDO EN CUENTA EL BENEFICO DEL MARKETPLACE
+         */ 
+        function obtener_ganancia(precio_venta, precio_minimo) {
+           
+            //let ganancia = (precio_venta - precio_minimo) * BENEFICIO_MARKETPLACE / 100;
+            //return ganancia;
+            let iva_percent = (precio_venta - precio_minimo) * 0.05;
+            let ganancia = precio_venta - precio_minimo - iva_percent - precio_venta * 0.3;
+            return ganancia;
+
+        }
+
+        /*
+         * Rellenado de la base de datos
+         */
+        function inicializarBD(db) {
+            db.bulkDocs([
+                { size: 'a4', paper: 'estucado', grammage: "90", printing_type: 'negro', price: 0.01605 },
+                { size: 'a43', paper: 'estucado', grammage: "100", printing_type: 'negro', price: 0.01622 },
+                { size: 'a4', paper: 'estucado', grammage: "115", printing_type: 'negro', price: 0.01863 },
+                { size: 'a4', paper: 'estucado', grammage: "135", printing_type: 'negro', price: 0.01869 },
+                { size: 'a4', paper: 'offset', grammage: "80", printing_type: 'negro', price: 0.01421 },
+                { size: 'a4', paper: 'offset', grammage: "90", printing_type: 'negro', price: 0.01622 },
+                { size: 'a4', paper: 'ahuesado', grammage: "90", printing_type: 'negro', price: 0.016588 },
+
+                { size: '17x24', paper: 'estucado', grammage: "90", printing_type: 'negro', price: 0.01008 },
+                { size: '17x24', paper: 'estucado', grammage: "100", printing_type: 'negro', price: 0.01019 },
+                { size: '17x24', paper: 'estucado', grammage: "115", printing_type: 'negro', price: 0.01160 },
+                { size: '17x24', paper: 'estucado', grammage: "135", printing_type: 'negro', price: 0.01173 },
+                { size: '17x24', paper: 'offset', grammage: "80", printing_type: 'negro', price: 0.00834 },
+                { size: '17x24', paper: 'offset', grammage: "90", printing_type: 'negro', price: 0.00935 },
+                { size: '17x24', paper: 'ahuesado', grammage: "90", printing_type: 'negro', price: 0.010411 },
+
+                { size: 'a5', paper: 'estucado', grammage: "90", printing_type: 'negro', price: 0.00870 },
+                { size: 'a5', paper: 'estucado', grammage: "100", printing_type: 'negro', price: 0.00879 },
+                { size: 'a5', paper: 'estucado', grammage: "115", printing_type: 'negro', price: 0.01000 },
+                { size: 'a5', paper: 'estucado', grammage: "135", printing_type: 'negro', price: 0.00994 },
+                { size: 'a5', paper: 'offset', grammage: "80", printing_type: 'negro', price: 0.00778 },
+                { size: 'a5', paper: 'offset', grammage: "90", printing_type: 'negro', price: 0.00879 },
+                { size: 'a5', paper: 'ahuesado', grammage: "90", printing_type: 'negro', price: 0.008974 },
+
+                { size: '21x21', paper: 'estucado', grammage: "90", printing_type: 'negro', price: 0.01360 },
+                { size: '21x21', paper: 'estucado', grammage: "100", printing_type: 'negro', price: 0.01374 },
+                { size: '21x21', paper: 'estucado', grammage: "115", printing_type: 'negro', price: 0.01575 },
+                { size: '21x21', paper: 'estucado', grammage: "135", printing_type: 'negro', price: 0.01577 },
+                { size: '21x21', paper: 'offset', grammage: "80", printing_type: 'negro', price: 0.01364 },
+                { size: '21x21', paper: 'offset', grammage: "90", printing_type: 'negro', price: 0.01374 },
+                { size: '21x21', paper: 'ahuesado', grammage: "90", printing_type: 'negro', price: 0.014050 },
+
+                { size: 'a4', paper: 'estucado', grammage: "90", printing_type: 'color', price: 0.03430 },
+                { size: 'a4', paper: 'estucado', grammage: "100", printing_type: 'color', price: 0.3447 },
+                { size: 'a4', paper: 'estucado', grammage: "115", printing_type: 'color', price: 0.03702 },
+                { size: 'a4', paper: 'estucado', grammage: "135", printing_type: 'color', price: 0.03102 },
+                { size: 'a4', paper: 'offset', grammage: "80", printing_type: 'color', price: 0.03142 },
+                { size: 'a4', paper: 'offset', grammage: "90", printing_type: 'color', price: 0.03447 },
+                { size: 'a4', paper: 'ahuesado', grammage: "90", printing_type: 'color', price: 0.033797 },
+
+                { size: '17x24', paper: 'estucado', grammage: "90", printing_type: 'color', price: 0.01966 },
+                { size: '17x24', paper: 'estucado', grammage: "100", printing_type: 'color', price: 0.01975 },
+                { size: '17x24', paper: 'estucado', grammage: "115", printing_type: 'color', price: 0.02117 },
+                { size: '17x24', paper: 'estucado', grammage: "135", printing_type: 'color', price: 0.01893 },
+                { size: '17x24', paper: 'offset', grammage: "80", printing_type: 'color', price: 0.01775 },
+                { size: '17x24', paper: 'offset', grammage: "90", printing_type: 'color', price: 0.01975 },
+                { size: '17x24', paper: 'ahuesado', grammage: "90", printing_type: 'color', price: 0.019068 },
+
+                { size: 'a5', paper: 'estucado', grammage: "90", printing_type: 'color', price: 0.01783 },
+                { size: 'a5', paper: 'estucado', grammage: "100", printing_type: 'color', price: 0.01797 },
+                { size: 'a5', paper: 'estucado', grammage: "115", printing_type: 'color', price: 0.01919 },
+                { size: 'a5', paper: 'estucado', grammage: "135", printing_type: 'color', price: 0.01611 },
+                { size: 'a5', paper: 'offset', grammage: "80", printing_type: 'color', price: 0.01639 },
+                { size: 'a5', paper: 'offset', grammage: "90", printing_type: 'color', price: 0.01791 },
+                { size: 'a5', paper: 'ahuesado', grammage: "90", printing_type: 'color', price: 0.017578 },
+
+                { size: '21x21', paper: 'estucado', grammage: "90", printing_type: 'color', price: 0.02881 },
+                { size: '21x21', paper: 'estucado', grammage: "100", printing_type: 'color', price: 0.02895 },
+                { size: '21x21', paper: 'estucado', grammage: "115", printing_type: 'color', price: 0.03108 },
+                { size: '21x21', paper: 'estucado', grammage: "135", printing_type: 'color', price: 0.02780 },
+                { size: '21x21', paper: 'offset', grammage: "80", printing_type: 'color', price: 0.02885 },
+                { size: '21x21', paper: 'offset', grammage: "90", printing_type: 'color', price: 0.02895 },
+                { size: '21x21', paper: 'ahuesado', grammage: "90", printing_type: 'color', price: 0.028391 },
+            ], function (err, response) {
+                if (err) { return console.log(err); }
+                db.createIndex({
+                    index: {
+                        fields: ['size', 'paper', 'grammage', 'printing_type']
+                    }
+                }, function (err, result) {
+                    if (err) { return console.log(err); }
+                    obtenerPrecio(db);
+                });
+            });
+        }
+
+        /* Obtención del precio */
+        function obtenerPrecio(db) {
+            if ($('#id_num_paginas').val() == '') {
+                $("#coste_impresion").html("0 €");
+                $("#precio_libro").html("0 €");
+                $("#ganancia_libro").html("0 €");
+
+                return;
+            }
+
+            let num_paginas = Number($('#id_num_paginas').val());
+            let tamano = $('#id_tamano').val();
+            let papel = $('#id_tipo_papel').val();
+            let gramaje = $('#id_gramaje').val();
+            let tipo_impresion = $('#id_tipo_impresion').val();
+            let encuadernacion = $('#id_tipo_maquetacion').val();
+
+            calcularPrecioBD(db, tamano, papel, gramaje, tipo_impresion, encuadernacion, num_paginas);
+        }
+
+         /* Calculo del precio */
+        function calcularPrecioBD(db, tamano, papel, gramaje, tipo_impresion, encuadernacion, num_paginas) {
+            db.find({
+                selector: {
+                    size: tamano,
+                    paper: papel,
+                    grammage: gramaje,
+                    printing_type: tipo_impresion
+                }
+            }, function (err, result) {
+                if (err) { return console.log(err); }
+                let price = result.docs[0].price;
+                let coste_impresion = Number(num_paginas) * Number(price) + Number(encuadernacion);
+               
+                // precio de coste de impresion
+                let precio_minimo = coste_impresion + (PORCENTAJE_MANIPULADO * coste_impresion) / 100;     
+                
+                // el precio mimino de venta 
+                let precio_venta_minimo = precio_minimo + (COMISION * precio_minimo) / 100;
+
+                let coste_impresion_fmt = coste_impresion.toFixed(2);
+                coste_impresion_fmt = coste_impresion_fmt.replace('.', ',');
+                
+                let precio_minimo_fmt = precio_minimo.toFixed(2);
+                precio_minimo_fmt = precio_minimo_fmt.replace('.', ',');
+                
+                let precio_venta_minimo_fmt = precio_venta_minimo.toFixed(2);
+                precio_venta_minimo_fmt =  precio_venta_minimo_fmt.replace('.', ',');
+
+                $("#coste_impresion").html(precio_minimo_fmt + " €");
+                $("#precio_libro").html(precio_venta_minimo_fmt + " €");
+
+                // Precio venta
+                let precio_venta = $('#id_precio_venta').val();
+                if (precio_venta != '') {
+                    if (precio_venta < precio_venta_minimo) {
+                        $("#err_msg").html("El precio de venta debería ser mayor de " + precio_venta_minimo_fmt);
+                        $('#err_msg').show();
+                        $("#ganancia_libro").html('');
+                    } else {
+                        $('#err_msg').hide();
+
+                        let ganancia_libro = obtener_ganancia(precio_venta, precio_minimo);
+                        let ganancia_libro_fmt = ganancia_libro.toFixed(2);
+                        ganancia_libro_fmt = ganancia_libro_fmt.replace('.', ',');
+                        $("#ganancia_libro").html(ganancia_libro_fmt + " €");
+                        if (ganancia_libro < 0) {
+                            $("#err_msg").html("OJO: ESTAS VENDIENDO A PERDIDAS");
+                            $('#err_msg').show();
+                        }
+
+                    }
+                } else {
+                    $('#err_msg').hide();
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            var db = new PouchDB('my_database');
+            db.destroy(function (err, response) {
+                if (err) {
+                    return console.log(err);
+                } else {
+                    db = new PouchDB('my_database');
+                    inicializarBD(db);
+                }
+            });
+
+            //$("#coste_embalaje").html(COSTE_EMBALAJE + " €");
+
+            // Solo entrada numerica
+            $("#id_num_paginas").on('input', function (e) {
+                $(this).val($(this).val().replace(/[^0-9]/g, ''));
+            });
+
+            // Eventos controles
+            $("#id_tipo_papel").on('change', function (e) {
+                var sel_gramaje = $("#id_gramaje");
+                sel_gramaje.find('option').remove();
+
+                let tipo_papel = $(this).val();
+                if (tipo_papel == 'estucado') {
+                    sel_gramaje.append($("<option />").val("90").text("90"));
+                    sel_gramaje.append($("<option />").val("100").text("100"));
+                    sel_gramaje.append($("<option />").val("115").text("115"));
+                    sel_gramaje.append($("<option />").val("135").text("115"));
+                } else if (tipo_papel == 'offset') {
+                    sel_gramaje.append($("<option />").val("90").text("90"));
+                    sel_gramaje.append($("<option />").val("80").text("80"));
+                } else {
+                    sel_gramaje.append($("<option />").val("90").text("90"));
+                }
+
+                obtenerPrecio(db);
+            });
+
+            $("#id_gramaje").on('change', function (e) {
+                obtenerPrecio(db);
+            });
+
+            $("#id_tipo_impresion").on('change', function (e) {
+                obtenerPrecio(db);
+            });
+
+            $("#id_tamano").on('change', function (e) {
+                obtenerPrecio(db);
+            });
+
+            $("#id_tipo_maquetacion").on('change', function (e) {
+                obtenerPrecio(db);
+            });
+
+            $("#id_num_paginas").on('change', function (e) {
+                obtenerPrecio(db);
+            });
+
+            $("#id_num_paginas").on('keyup', function (e) {
+                obtenerPrecio(db);
+            });
+
+            $("#id_precio_venta").on('change', function (e) {
+                obtenerPrecio(db);
+            });
+
+            $("#id_precio_venta").on('keyup', function (e) {
+                obtenerPrecio(db);
+            });
+        });
+    </script>
+</body>
+
+</html>

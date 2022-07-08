@@ -1,0 +1,15 @@
+<!-- import code using CDN -->
+<script src="https://unpkg.com/stormdb/dist/StormDB.min.js"></script>
+<script src="https://unpkg.com/stormdb/dist/BrowserEngine.min.js"></script>
+
+<script>
+  // start DB with browser engine
+  const engine = new BrowserEngine("db");
+  const db = new StormDB(engine);
+
+  // set default value for empty database
+  db.default({ name: "tom" });
+
+  // output name in database
+  console.log(db.get("name").value());
+</script>

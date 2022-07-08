@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <title>Calculadora</title>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <h4>Calcula el precio de coste edición y de venta de tu libro</h4>
+                </div>
+                <div class="row">
+                    <span class="fs-5">
+                        <span class="fs-5" style="color: #AF0539">1
+                        </span> Introduce el formato de tu libro para calcular el precio mínimo de venta</span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="min-height: 10px;"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="exampleFormControlInput1" style="font-size:0.8rem;" class="form-label">Número Páginas:</label>
+                        <input id="id_num_paginas" onchange="ejecutarCalculo();" onkeyup="ejecutarCalculo();" type="number" min="0" step="1" class="form-control"
+                            placeholder="Introduce número páginas" aria-label="Número Paǵinas">
+                    </div>
+                    <div class="col">
+                        <label for="exampleFormControlInput1" style="font-size:0.8rem;" class="form-label">Tamaño:</label>
+                        <select id="id_tamano" onchange="ejecutarCalculo();" class="form-select"
+                            aria-label="tamaño libro">
+                            <option value="1" selected="selected">108x175</option>
+                            <option value="2">125x190</option>
+                            <option value="3">150x210</option>
+                            <option value="4">152x228</option>
+                            <option value="5">170x235</option>
+                            <option value="6">190x190</option>
+                            <option value="7">210x210</option>
+                            <option value="8">210x297</option>
+                            <option value="9">216x279</option>
+                            <option value="10">229x178</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="exampleFormControlInput1" style="font-size:0.8rem;" class="form-label">Tipo de impresión:</label>
+                        <select id="id_tipo_impresion" onchange="ejecutarCalculo();" class="form-select"
+                            aria-label="tipo impresion">
+                            <option value="1" selected="selected">Blanco y Negro</option>
+                            <option value="2">Color</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="min-height: 10px;"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <label for="exampleFormControlInput1" style="font-size:0.8rem;" class="form-label">Encuadernación:</label>
+                        <select id="id_tipo_maquetacion" onchange="ejecutarCalculo();" class="form-select"
+                            aria-label="tipo maquetación">
+                            <option value="1" selected="selected">Con Solapa</option>
+                            <option value="2">Sin solapa</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="exampleFormControlInput1" style="font-size:0.8rem;" class="form-label">Tipo de Papel:</label>
+                        <select id="id_tipo_portada" onchange="ejecutarCalculo();" class="form-select"
+                            aria-label="tipo portada">
+                            <option value="1" selected="selected">Estucado</option>
+                            <option value="2">Offset</option>
+                            <option value="3">Ahuesado</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="exampleFormControlInput1" style="font-size:0.8rem;" class="form-label">Acabado:</label>
+                        <select id="id_acabado" onchange="ejecutarCalculo();" class="form-select" aria-label="acabado">
+                            <option value="1" selected="selected">Brillo</option>
+                            <option value="2">Mate</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="min-height: 10px;"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col" style="background-color: #AF0539;color:white;">
+                        <span class="fs-5"><strong>Precio mínimo de venta:</strong> </span>
+                        <span class=" fs-5" style="color:white;" id="precio_libro"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="min-height: 20px;"></div>
+                </div>
+
+                <div class="row">
+                    <span class="fs-5">
+                        <span class="fs-4" style="color: #AF0539">2
+                        </span> Introduce el precio al cual lo quieres vender</span>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12" style="min-height: 20px;"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="exampleFormControlInput1" class="form-label">Precio de Venta (€):</label>
+                        <input onchange="ejecutarCalculo();" onkeyup="ejecutarCalculo();" id="id_precio_venta" type="number" min="0" class="form-control" aria-label="Precio Venta">
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div style="display:none;" class="form-text" id="err_msg">El precio que pongas ha de ser mayor que el precio mínimo de venta</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" style="min-height: 20px;"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col" style="background-color: #AF0539;color: white;">
+                        <span class="fs-5"><strong>Por cada venta de tu libro ganarás: </strong> </span>
+                        <span class="fs-5" style="color:white;" id="ganancia_libro"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <script>
+        function obtener_precio_minimo_venta() {
+            let num_paginas = Number($('#id_num_paginas').val());
+            let precio_minimo_venta = 0;
+            let tamano = Number($('#id_tamano').val());
+            let tipo_impresion = Number($('#id_tipo_impresion').val());
+            let maquetacion = Number($('#id_tipo_maquetacion').val());
+            let tipo_portada = Number($('#id_tipo_portada').val());
+            let acabado = Number($('#id_acabado').val());
+
+            precio_minimo_venta = num_paginas + tamano + tipo_impresion + maquetacion + tipo_portada + acabado;
+
+            return precio_minimo_venta;
+        }
+
+        function obtener_ganancia(precio_venta) {
+            let precio_minimo_venta = obtener_precio_minimo_venta();
+            let ganancia = precio_venta - precio_minimo_venta;
+
+            return ganancia;
+        }
+
+        function ejecutarCalculo() {
+            if ($('#id_num_paginas').val() == '') { 
+                $("#precio_libro").html("0 €");
+                $("#ganancia_libro").html("0 €");
+                return;
+            } 
+            
+            let precio_minimo_venta = obtener_precio_minimo_venta();
+            $("#precio_libro").html(precio_minimo_venta + " €");
+
+            let precio_venta = $('#id_precio_venta').val();
+            if (precio_venta != '') {
+                if (precio_venta < precio_minimo_venta) {
+                    $('#err_msg').show();
+                } else {
+                    $('#err_msg').hide();
+                    let ganancia_libro = obtener_ganancia(precio_venta);
+                    $("#ganancia_libro").html(ganancia_libro + " €");
+                }
+            } else {
+                $('#err_msg').hide();
+            }
+        }
+
+        $(document).ready(function () {
+            // Solo entrada numerica
+            $("#id_num_paginas").on('input', function(e) {
+                $(this).val($(this).val().replace(/[^0-9]/g, ''));
+            });
+
+            ejecutarCalculo();
+        });
+    </script>
+</body>
+
+</html>
