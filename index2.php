@@ -131,17 +131,6 @@
                     </div>
                 </div>
 
-                <!--
-                <div class="row">
-                    <div class="col-4">
-                        <span style="font-size: 1rem;"><strong>Coste Embalaje/Manipulado:</strong> </span>
-                    </div>
-                    <div class="col-4">
-                        <span style="color:black;font-size: 1rem;" id="coste_embalaje"></span>
-                    </div>
-                </div>
-                -->
-                
                 <div class="row">
                     <div class="col-4" style="background-color: #AF0539;color:white;">
                         <span style="font-size: 1rem;"><strong>Precio mínimo de venta:</strong> </span>
@@ -241,84 +230,7 @@
         /*
          * Rellenado de la base de datos
          */
-        function inicializarBD(db) {
-            db.bulkDocs([
-                { size: 'a4', paper: 'estucado', grammage: "90", printing_type: 'negro', price: 0.01605 },
-                { size: 'a43', paper: 'estucado', grammage: "100", printing_type: 'negro', price: 0.01622 },
-                { size: 'a4', paper: 'estucado', grammage: "115", printing_type: 'negro', price: 0.01863 },
-                { size: 'a4', paper: 'estucado', grammage: "135", printing_type: 'negro', price: 0.01869 },
-                { size: 'a4', paper: 'offset', grammage: "80", printing_type: 'negro', price: 0.01421 },
-                { size: 'a4', paper: 'offset', grammage: "90", printing_type: 'negro', price: 0.01622 },
-                { size: 'a4', paper: 'ahuesado', grammage: "90", printing_type: 'negro', price: 0.016588 },
-
-                { size: '17x24', paper: 'estucado', grammage: "90", printing_type: 'negro', price: 0.01008 },
-                { size: '17x24', paper: 'estucado', grammage: "100", printing_type: 'negro', price: 0.01019 },
-                { size: '17x24', paper: 'estucado', grammage: "115", printing_type: 'negro', price: 0.01160 },
-                { size: '17x24', paper: 'estucado', grammage: "135", printing_type: 'negro', price: 0.01173 },
-                { size: '17x24', paper: 'offset', grammage: "80", printing_type: 'negro', price: 0.00834 },
-                { size: '17x24', paper: 'offset', grammage: "90", printing_type: 'negro', price: 0.00935 },
-                { size: '17x24', paper: 'ahuesado', grammage: "90", printing_type: 'negro', price: 0.010411 },
-
-                { size: 'a5', paper: 'estucado', grammage: "90", printing_type: 'negro', price: 0.00870 },
-                { size: 'a5', paper: 'estucado', grammage: "100", printing_type: 'negro', price: 0.00879 },
-                { size: 'a5', paper: 'estucado', grammage: "115", printing_type: 'negro', price: 0.01000 },
-                { size: 'a5', paper: 'estucado', grammage: "135", printing_type: 'negro', price: 0.00994 },
-                { size: 'a5', paper: 'offset', grammage: "80", printing_type: 'negro', price: 0.00778 },
-                { size: 'a5', paper: 'offset', grammage: "90", printing_type: 'negro', price: 0.00879 },
-                { size: 'a5', paper: 'ahuesado', grammage: "90", printing_type: 'negro', price: 0.008974 },
-
-                { size: '21x21', paper: 'estucado', grammage: "90", printing_type: 'negro', price: 0.01360 },
-                { size: '21x21', paper: 'estucado', grammage: "100", printing_type: 'negro', price: 0.01374 },
-                { size: '21x21', paper: 'estucado', grammage: "115", printing_type: 'negro', price: 0.01575 },
-                { size: '21x21', paper: 'estucado', grammage: "135", printing_type: 'negro', price: 0.01577 },
-                { size: '21x21', paper: 'offset', grammage: "80", printing_type: 'negro', price: 0.01364 },
-                { size: '21x21', paper: 'offset', grammage: "90", printing_type: 'negro', price: 0.01374 },
-                { size: '21x21', paper: 'ahuesado', grammage: "90", printing_type: 'negro', price: 0.014050 },
-
-                { size: 'a4', paper: 'estucado', grammage: "90", printing_type: 'color', price: 0.03430 },
-                { size: 'a4', paper: 'estucado', grammage: "100", printing_type: 'color', price: 0.3447 },
-                { size: 'a4', paper: 'estucado', grammage: "115", printing_type: 'color', price: 0.03702 },
-                { size: 'a4', paper: 'estucado', grammage: "135", printing_type: 'color', price: 0.03102 },
-                { size: 'a4', paper: 'offset', grammage: "80", printing_type: 'color', price: 0.03142 },
-                { size: 'a4', paper: 'offset', grammage: "90", printing_type: 'color', price: 0.03447 },
-                { size: 'a4', paper: 'ahuesado', grammage: "90", printing_type: 'color', price: 0.033797 },
-
-                { size: '17x24', paper: 'estucado', grammage: "90", printing_type: 'color', price: 0.01966 },
-                { size: '17x24', paper: 'estucado', grammage: "100", printing_type: 'color', price: 0.01975 },
-                { size: '17x24', paper: 'estucado', grammage: "115", printing_type: 'color', price: 0.02117 },
-                { size: '17x24', paper: 'estucado', grammage: "135", printing_type: 'color', price: 0.01893 },
-                { size: '17x24', paper: 'offset', grammage: "80", printing_type: 'color', price: 0.01775 },
-                { size: '17x24', paper: 'offset', grammage: "90", printing_type: 'color', price: 0.01975 },
-                { size: '17x24', paper: 'ahuesado', grammage: "90", printing_type: 'color', price: 0.019068 },
-
-                { size: 'a5', paper: 'estucado', grammage: "90", printing_type: 'color', price: 0.01783 },
-                { size: 'a5', paper: 'estucado', grammage: "100", printing_type: 'color', price: 0.01797 },
-                { size: 'a5', paper: 'estucado', grammage: "115", printing_type: 'color', price: 0.01919 },
-                { size: 'a5', paper: 'estucado', grammage: "135", printing_type: 'color', price: 0.01611 },
-                { size: 'a5', paper: 'offset', grammage: "80", printing_type: 'color', price: 0.01639 },
-                { size: 'a5', paper: 'offset', grammage: "90", printing_type: 'color', price: 0.01791 },
-                { size: 'a5', paper: 'ahuesado', grammage: "90", printing_type: 'color', price: 0.017578 },
-
-                { size: '21x21', paper: 'estucado', grammage: "90", printing_type: 'color', price: 0.02881 },
-                { size: '21x21', paper: 'estucado', grammage: "100", printing_type: 'color', price: 0.02895 },
-                { size: '21x21', paper: 'estucado', grammage: "115", printing_type: 'color', price: 0.03108 },
-                { size: '21x21', paper: 'estucado', grammage: "135", printing_type: 'color', price: 0.02780 },
-                { size: '21x21', paper: 'offset', grammage: "80", printing_type: 'color', price: 0.02885 },
-                { size: '21x21', paper: 'offset', grammage: "90", printing_type: 'color', price: 0.02895 },
-                { size: '21x21', paper: 'ahuesado', grammage: "90", printing_type: 'color', price: 0.028391 },
-            ], function (err, response) {
-                if (err) { return console.log(err); }
-                db.createIndex({
-                    index: {
-                        fields: ['size', 'paper', 'grammage', 'printing_type']
-                    }
-                }, function (err, result) {
-                    if (err) { return console.log(err); }
-                    obtenerPrecio(db);
-                });
-            });
-        }
-
+       
         /* Obtención del precio */
         function obtenerPrecio(db) {
             if ($('#id_num_paginas').val() == '') {
